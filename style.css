@@ -1,0 +1,67 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #eef3fc;
+    padding: 30px;
+}
+
+h1 {
+    color: #1f4e8c;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+th {
+    background: #2f6bcc;
+    color: white;
+    padding: 12px;
+    font-size: 16px;
+}
+
+td {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #d6d6d6;
+}
+
+input {
+    width: 70px;
+    padding: 5px;
+    text-align: center;
+    border-radius: 5px;
+    border: 1px solid #999;
+}
+
+button {
+    padding: 10px 15px;
+    background: #2f6bcc;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    margin: 10px 5px;
+    font-size: 16px;
+}
+
+button:hover {
+    background: #1f4e8c;
+}
+
+.button-row {
+    text-align: center;
+}
+
+#sgpaBox {
+    margin-top: 25px;
+    font-size: 22px;
+    font-weight: bold;
+    color: #1f4e8c;
+}

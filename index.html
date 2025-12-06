@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dynamic SGPA Calculator</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>Dynamic SGPA Calculator</h1>
+
+<div class="button-row">
+    <button onclick="addSubject()">Add Subject</button>
+    <button onclick="calculateSGPA()">Calculate SGPA</button>
+    <button onclick="saveData()">Save</button>
+    <button onclick="loadData()">Load</button>
+</div>
+
+<table id="sgpaTable">
+    <tr>
+        <th>SUBJECT</th>
+        <th>CIE</th>
+        <th>SEE</th>
+        <th>TOTAL</th>
+        <th>CREDIT</th>
+        <th>GRADE</th>
+        <th>CONTRIBUTION</th>
+        <th>DELETE</th>
+    </tr>
+</table>
+
+<div id="sgpaBox">SGPA: --</div>
+
+<script src="script.js"></script>
+</body>
+</html>
