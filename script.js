@@ -1,143 +1,125 @@
-// ------------------ GRADE POINT RULES ------------------
+// ------------------ GRADE LOGIC ------------------
 function gradeFromTotal(total) {
-    if (total >= 90) return 10;
-    if (total >= 80) return 9;
-    if (total >= 70) return 8;
-    if (total >= 60) return 7;
-    if (total >= 50) return 6;
-    if (total >= 40) return 5;
-    return 0;
+  if (total >= 90) return 10;
+  if (total >= 80) return 9;
+  if (total >= 70) return 8;
+  if (total >= 60) return 7;
+  if (total >= 50) return 6;
+  if (total >= 40) return 5;
+  return 0;
 }
 
-// Contribution = credit × gradePoint
 function computeContribution(credit, gradePoint) {
-    return credit * gradePoint;
+  return credit * gradePoint;
 }
 
 // ------------------ ADD SUBJECT ------------------
-function addSubject() {
-    let credit = prompt("Enter credit for this subject (1 to 4):");
-    if (!credit || isNaN(credit) || credit < 1 || credit > 4) {
-        alert("Enter a valid credit number between 1 and 4.");
-        return;
-    }
-    credit = parseInt(credit);
+function addSubject(data = null) {
+  let credit;
 
-    insertRow({
-        subject: "",
-        cie: "",
-        see: "",
-        total: 0,
-        credit: credit,
-        grade: "--",
-        contribution: 0
-    });
-}
+  if (data) credit = data.credit;
+  else {
+    credit = prompt("Enter credit (1–4):");
+    if (!credit || credit < 1 || credit > 4) return;
+  }
 
-// ------------------ INSERT ROW FROM DATA ------------------
-function insertRow(data) {
-    let table = document.getElementById("sgpaTable");
-    let row = table.insertRow(-1);
+  const table = document.getElementById("sgpaTable");
+  const row = table.insertRow(-1);
 
-    row.innerHTML = `
-        <td><input value="${data.subject}" oninput="updateRow(this)"></td>
-        <td><input type="number" value="${data.cie}" min="0" max="50" oninput="updateRow(this)"></td>
-        <td><input type="number" value="${data.see}" min="0" max="50" oninput="updateRow(this)"></td>
-        <td class="total">${data.total}</td>
-        <td class="credit">${data.credit}</td>
-        <td class="grade">${data.grade}</td>
-        <td class="gpa">${data.contribution}</td>
-        <td><button onclick="deleteRow(this)" style="background:red;color:white;padding:5px 10px;border:none;border-radius:5px;">X</button></td>
+  row.innerHTML = `
+        <td><input value="${
+          data?.subject || ""
+        }" oninput="updateRow(this)"></td>
+        <td><input type="number" min="0" max="50" value="${
+          data?.cie || ""
+        }" oninput="updateRow(this)"></td>
+        <td><input type="number" min="0" max="50" value="${
+          data?.see || ""
+        }" oninput="updateRow(this)"></td>
+        <td class="total">${data?.total || 0}</td>
+        <td class="credit">${credit}</td>
+        <td class="grade">${data?.grade || "--"}</td>
+        <td class="gpa">${data?.contribution || 0}</td>
+        <td><button onclick="deleteRow(this)" style="background:red;color:white;border:none;padding:5px 10px;border-radius:5px;">X</button></td>
     `;
 
-    // Recalculate after inserting
-    if (data.cie !== "" && data.see !== "") {
-        updateRow(row.children[1].children[0]);
-    }
+  if (data) updateRow(row.children[1].children[0]);
 }
 
 // ------------------ DELETE ROW ------------------
 function deleteRow(btn) {
-    btn.parentNode.parentNode.remove();
+  btn.parentNode.parentNode.remove();
 }
 
 // ------------------ UPDATE ROW ------------------
 function updateRow(input) {
-    let row = input.parentNode.parentNode;
+  const row = input.parentNode.parentNode;
 
-    let subject = row.children[0].children[0].value;
-    let cie = Number(row.children[1].children[0].value);
-    let see = Number(row.children[2].children[0].value);
+  const cie = Number(row.children[1].children[0].value);
+  const see = Number(row.children[2].children[0].value);
+  const total = cie + see;
 
-    let total = cie + see;
-    row.querySelector(".total").innerText = isNaN(total) ? 0 : total;
+  row.querySelector(".total").innerText = isNaN(total) ? 0 : total;
 
-    let gradePoint = gradeFromTotal(total);
-    row.querySelector(".grade").innerText = gradePoint;
+  const grade = gradeFromTotal(total);
+  row.querySelector(".grade").innerText = grade;
 
-    let credit = Number(row.querySelector(".credit").innerText);
-    let contribution = computeContribution(credit, gradePoint);
+  const credit = Number(row.querySelector(".credit").innerText);
+  const contribution = computeContribution(credit, grade);
 
-    row.querySelector(".gpa").innerText = contribution;
+  row.querySelector(".gpa").innerText = contribution;
 }
 
 // ------------------ CALCULATE SGPA ------------------
 function calculateSGPA() {
-    let rows = document.querySelectorAll("#sgpaTable tr");
-    let totalContribution = 0;
-    let totalCredits = 0;
+  const rows = document.querySelectorAll("#sgpaTable tr");
+  let totalCredits = 0,
+    totalContribution = 0;
 
-    rows.forEach((row, index) => {
-        if (index === 0) return;
+  rows.forEach((row, i) => {
+    if (i === 0) return;
+    const credit = Number(row.querySelector(".credit").innerText);
+    const contrib = Number(row.querySelector(".gpa").innerText);
+    totalCredits += credit;
+    totalContribution += contrib;
+  });
 
-        const credit = Number(row.querySelector(".credit")?.innerText || 0);
-        const contrib = Number(row.querySelector(".gpa")?.innerText || 0);
-
-        totalCredits += credit;
-        totalContribution += contrib;
-    });
-
-    let sgpa = totalContribution / totalCredits;
-
-    document.getElementById("sgpaBox").innerText =
-        `SGPA: ${isNaN(sgpa) ? "--" : sgpa.toFixed(2)}  (Credits: ${totalCredits})`;
+  const sgpa = totalContribution / totalCredits;
+  document.getElementById("sgpaBox").innerText = `SGPA: ${
+    isNaN(sgpa) ? "--" : sgpa.toFixed(2)
+  } (Credits: ${totalCredits})`;
 }
 
-// ------------------ SAVE DATA (JSON) ------------------
+// ------------------ SAVE ------------------
 function saveData() {
-    let rows = document.querySelectorAll("#sgpaTable tr");
-    let data = [];
+  const rows = document.querySelectorAll("#sgpaTable tr");
+  const data = [];
 
-    rows.forEach((row, index) => {
-        if (index === 0) return;
-
-        data.push({
-            subject: row.children[0].children[0].value,
-            cie: row.children[1].children[0].value,
-            see: row.children[2].children[0].value,
-            total: row.querySelector(".total").innerText,
-            credit: row.querySelector(".credit").innerText,
-            grade: row.querySelector(".grade").innerText,
-            contribution: row.querySelector(".gpa").innerText
-        });
+  rows.forEach((row, i) => {
+    if (i === 0) return;
+    data.push({
+      subject: row.children[0].children[0].value,
+      cie: row.children[1].children[0].value,
+      see: row.children[2].children[0].value,
+      total: row.querySelector(".total").innerText,
+      credit: row.querySelector(".credit").innerText,
+      grade: row.querySelector(".grade").innerText,
+      contribution: row.querySelector(".gpa").innerText,
     });
+  });
 
-    localStorage.setItem("sgpaData", JSON.stringify(data));
-    alert("Saved!");
+  localStorage.setItem("sgpaData", JSON.stringify(data));
+  alert("Saved!");
 }
 
-// ------------------ LOAD DATA (JSON) ------------------
+// ------------------ LOAD ------------------
 function loadData() {
-    let saved = localStorage.getItem("sgpaData");
-    if (!saved) {
-        alert("No saved data found.");
-        return;
-    }
+  const saved = localStorage.getItem("sgpaData");
+  if (!saved) return alert("No saved data found.");
 
-    let data = JSON.parse(saved);
+  const data = JSON.parse(saved);
 
-    // Clear table except header
-    document.getElementById("sgpaTable").innerHTML = `
+  document.getElementById("sgpaTable").innerHTML = `
         <tr>
             <th>SUBJECT</th>
             <th>CIE</th>
@@ -150,8 +132,15 @@ function loadData() {
         </tr>
     `;
 
-    // Rebuild each row
-    data.forEach(item => insertRow(item));
+  data.forEach((d) => addSubject(d));
+  alert("Loaded!");
+}
 
-    alert("Loaded!");
+// ------------------ DARK MODE ------------------
+function toggleTheme() {
+  document.body.classList.toggle("dark");
+  localStorage.setItem(
+    "theme",
+    document.body.classList.contains("dark") ? "dark" : "light"
+  );
 }

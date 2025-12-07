@@ -1,67 +1,163 @@
+/* =========================== */
+/*      THEME COLORS           */
+/* =========================== */
+
+:root {
+    --bg: #eef3fc;
+    --text: #1f4e8c;
+    --table-bg: white;
+    --header-bg: #2f6bcc;
+    --card-shadow: rgba(0,0,0,0.08);
+}
+
+body.dark {
+    --bg: #0b0f19;
+    --text: #ffffff;
+    --table-bg: #1c2333;
+    --header-bg: #3f5fc9;
+    --card-shadow: rgba(255,255,255,0.05);
+}
+
+/* =========================== */
+/*      SMOOTH TRANSITIONS     */
+/* =========================== */
+
+body, table, th, td, button, input {
+    transition: 0.3s ease;
+}
+
 body {
-    font-family: Arial, sans-serif;
-    background: #eef3fc;
+    font-family: "Poppins", sans-serif;
+    background: var(--bg);
+    color: var(--text);
     padding: 30px;
+    animation: fadeIn 0.5s ease;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 h1 {
-    color: #1f4e8c;
     text-align: center;
-    margin-bottom: 20px;
+    color: var(--text);
+    margin-bottom: 10px;
+    animation: popIn 0.5s ease;
 }
+
+@keyframes popIn {
+    0% { opacity: 0; transform: scale(0.8); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+
+/* =========================== */
+/*      BUTTON ANIMATIONS      */
+/* =========================== */
+
+button {
+    padding: 10px 18px;
+    border-radius: 10px;
+    background: var(--header-bg);
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin: 5px;
+    font-size: 16px;
+    font-weight: 600;
+    box-shadow: 0px 4px 12px var(--card-shadow);
+    transform: translateY(0);
+    transition: 0.25s ease-in-out;
+}
+
+button:hover {
+    transform: translateY(-3px);
+    background: #1f4e8c;
+    box-shadow: 0px 8px 20px var(--card-shadow);
+}
+
+button:active {
+    transform: translateY(1px);
+}
+
+
+/* =========================== */
+/*      TABLE + ROW ANIM       */
+/* =========================== */
 
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
-    background: white;
-    border-radius: 10px;
+    background: var(--table-bg);
+    border-radius: 12px;
     overflow: hidden;
+    box-shadow: 0px 6px 20px var(--card-shadow);
+    animation: fadeIn 0.5s ease;
 }
 
 th {
-    background: #2f6bcc;
+    background: var(--header-bg);
     color: white;
     padding: 12px;
     font-size: 16px;
+    letter-spacing: 0.5px;
 }
 
 td {
     padding: 10px;
     text-align: center;
-    border-bottom: 1px solid #d6d6d6;
+    border-bottom: 1px solid rgba(150,150,150,0.2);
+    animation: slideIn 0.4s ease;
 }
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+tr:hover {
+    background: rgba(0,0,0,0.05);
+}
+
+body.dark tr:hover {
+    background: rgba(255,255,255,0.05);
+}
+
+
+/* =========================== */
+/*      INPUT STYLE            */
+/* =========================== */
 
 input {
-    width: 70px;
-    padding: 5px;
+    width: 80px;
+    padding: 6px;
     text-align: center;
-    border-radius: 5px;
-    border: 1px solid #999;
+    border-radius: 6px;
+    border: 2px solid #bbb;
+    outline: none;
+    transition: 0.2s ease;
 }
 
-button {
-    padding: 10px 15px;
-    background: #2f6bcc;
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 8px;
-    margin: 10px 5px;
-    font-size: 16px;
+input:focus {
+    border-color: var(--header-bg);
+    box-shadow: 0px 0px 6px var(--header-bg);
 }
 
-button:hover {
-    background: #1f4e8c;
-}
 
-.button-row {
-    text-align: center;
-}
+/* =========================== */
+/*      SGPA BOX               */
+/* =========================== */
 
 #sgpaBox {
-    margin-top: 25px;
-    font-size: 22px;
+    margin-top: 20px;
+    font-size: 26px;
+    text-align: center;
     font-weight: bold;
-    color: #1f4e8c;
+    padding: 12px;
+    border-radius: 10px;
+    background: var(--table-bg);
+    box-shadow: 0px 4px 12px var(--card-shadow);
+    animation: fadeIn 0.7s ease;
 }

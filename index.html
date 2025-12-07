@@ -2,10 +2,24 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Dynamic SGPA Calculator</title>
+<title>SGPA Calculator</title>
 <link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1f4e8c">
 </head>
+
 <body>
+
+<!-- Auto-apply user's saved theme -->
+<script>
+if (localStorage.getItem("theme") === "dark") {
+    document.body.classList.add("dark");
+}
+// Auto-detect device theme (only first visit)
+else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+    document.body.classList.add("dark");
+}
+</script>
 
 <h1>Dynamic SGPA Calculator</h1>
 
@@ -14,6 +28,7 @@
     <button onclick="calculateSGPA()">Calculate SGPA</button>
     <button onclick="saveData()">Save</button>
     <button onclick="loadData()">Load</button>
+    <button onclick="toggleTheme()">Toggle Theme</button>
 </div>
 
 <table id="sgpaTable">
@@ -32,5 +47,13 @@
 <div id="sgpaBox">SGPA: --</div>
 
 <script src="script.js"></script>
+
+<!-- PWA Service Worker -->
+<script>
+if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("service-worker.js");
+}
+</script>
+
 </body>
 </html>
