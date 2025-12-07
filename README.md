@@ -58,8 +58,6 @@ Thanks to caching:
 
 ---
 
----
-
 ## 🛠️ Tech Stack
 - **HTML5**
 - **CSS3**
