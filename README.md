@@ -69,23 +69,6 @@ Thanks to caching:
 
 ---
 
-## 📦 Installation & Setup
-
-### Option 1 — Open Directly
-Just open `index.html` in any browser.
-
-### Option 2 — Host on GitHub Pages
-1. Create a GitHub repository  
-2. Upload all files  
-3. Enable GitHub Pages  
-4. Done! Your app is live  
-
-### Option 3 — Deploy on Netlify (Recommended)
-Drag and drop your project folder into:
-https://app.netlify.com/drop
-
----
-
 ## 📱 Install the App (PWA)
 
 ### On Mobile:
